@@ -1,0 +1,188 @@
+<!DOCTYPE html lang="ru">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Shop - Уходовая косметика</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">🌸 Beauty Shop</a>
+                <nav class="nav">
+                    <a href="#catalog">Каталог</a>
+                    <a href="#about">О нас</a>
+                    <a href="#contacts">Контакты</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="cart-btn" id="cartBtn">
+                        🛒 Корзина
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Уходовая косметика<br>для вашей красоты</h1>
+                <p>Натуральные средства с доставкой по всей России</p>
+                <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advantages -->
+    <section class="advantages">
+        <div class="container">
+            <div class="advantages-grid">
+                <div class="advantage">
+                    <span class="adv-icon">🚚</span>
+                    <p>Бесплатная доставка<br>от 3000 ₽</p>
+                </div>
+                <div class="advantage">
+                    <span class="adv-icon">🌿</span>
+                    <p>100% натуральные<br>ингредиенты</p>
+                </div>
+                <div class="advantage">
+                    <span class="adv-icon">✨</span>
+                    <p>Сертифицированная<br>продукция</p>
+                </div>
+                <div class="advantage">
+                    <span class="adv-icon">💬</span>
+                    <p>Консультации<br>косметолога</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog -->
+    <section class="catalog" id="catalog">
+        <div class="container">
+            <h2>Каталог продукции</h2>
+            <div class="categories">
+                <button class="cat-btn active" data-category="all">Все</button>
+                <button class="cat-btn" data-category="face">Лицо</button>
+                <button class="cat-btn" data-category="body">Тело</button>
+                <button class="cat-btn" data-category="hair">Волосы</button>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Товары загружаются из JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>О нашем магазине</h2>
+                <p>Мы предлагаем только качественную уходовую косметику от проверенных производителей. Каждый товар проходит тщательный отбор.</p>
+                <p>Наши консультанты — профессиональные косметологи, которые помогут подобрать идеальный уход именно для вас.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts -->
+    <section class="contacts" id="contacts">
+        <div class="container">
+            <h2>Контакты</h2>
+            <div class="contacts-grid">
+                <div class="contact-card">
+                    <span class="contact-icon">📞</span>
+                    <p>8 800 123-45-67</p>
+                    <small>Бесплатно по РФ</small>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-icon">📧</span>
+                    <p>info@beautyshop.ru</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-icon">📍</span>
+                    <p>г. Краснодар, ул. Красная, 1</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Beauty Shop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Корзина</h3>
+                <button class="close-btn" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body" id="cartItems">
+                <!-- Товары корзины -->
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <span>Итого:</span>
+                    <span id="cartTotal">0 ₽</span>
+                </div>
+                <button class="btn btn-primary" id="checkoutBtn">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Оформление заказа</h3>
+                <button class="close-btn" id="closeCheckout">&times;</button>
+            </div>
+            <form class="checkout-form" id="checkoutForm">
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Адрес доставки</label>
+                    <textarea name="address" required rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea name="comment" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Заказать</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-content">
+            <span class="success-icon">✅</span>
+            <h3>Спасибо за заказ!</h3>
+            <p>Мы свяжемся с вами в ближайшее время</p>
+            <button class="btn btn-primary" id="closeSuccess">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

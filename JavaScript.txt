@@ -1,0 +1,247 @@
+/* script.js */
+let cart = [];
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    renderProducts();
+    setupEventListeners();
+});
+
+// Отрисовка товаров
+function renderProducts(category = 'all') {
+    const grid = document.getElementById('productsGrid');
+    const filteredProducts = category === 'all' 
+        ? products 
+        : products.filter(p => p.category === category);
+    
+    grid.innerHTML = filteredProducts.map(product => `
+        <div class="product-card" data-id="${product.id}">
+            <div class="product-image">${product.icon}</div>
+            <div class="product-info">
+                <p class="product-category">${getCategoryName(product.category)}</p>
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-desc">${product.description}</p>
+                <div class="product-footer">
+                    <span class="product-price">${formatPrice(product.price)}</span>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        В корзину
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Получение названия категории
+function getCategoryName(category) {
+    const names = {
+        face: 'Для лица',
+        body: 'Для тела',
+        hair: 'Для волос'
+    };
+    return names[category] || category;
+}
+
+// Форматирование цены
+function formatPrice(price) {
+    return price.toLocaleString('ru-RU') + ' ₽';
+}
+
+// Добавление в корзину
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.qty++;
+    } else {
+        cart.push({
+            ...product,
+            qty: 1
+        });
+    }
+    
+    updateCartDisplay();
+    showNotification('Товар добавлен в корзину!');
+}
+
+// Удаление из корзины
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartDisplay();
+}
+
+// Изменение количества
+function changeQty(productId, delta) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+            removeFromCart(productId);
+        } else {
+            updateCartDisplay();
+        }
+    }
+}
+
+// Обновление отображения корзины
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    
+    cartCount.textContent = totalQty;
+    cartTotal.textContent = formatPrice(totalPrice);
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <span>🛒</span>
+                <p>Корзина пуста</p>
+            </div>
+        `;
+    } else {
+        cartItems.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-image">${item.icon}</div>
+                <div class="cart-item-info">
+                    <p class="cart-item-name">${item.name}</p>
+                    <p class="cart-item-price">${formatPrice(item.price)}</p>
+                </div>
+                <div class="cart-item-qty">
+                    <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
+            </div>
+        `).join('');
+    }
+}
+
+// Показ уведомления
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ff6b9d;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 2000;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
+}
+
+// Настройка обработчиков событий
+function setupEventListeners() {
+    // Открытие корзины
+    document.getElementById('cartBtn').addEventListener('click', () => {
+        document.getElementById('cartModal').classList.add('active');
+    });
+    
+    // Закрытие корзины
+    document.getElementById('closeCart').addEventListener('click', () => {
+        document.getElementById('cartModal').classList.remove('active');
+    });
+    
+    // Открытие оформления заказа
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+        if (cart.length === 0) {
+            showNotification('Корзина пуста!');
+            return;
+        }
+        document.getElementById('cartModal').classList.remove('active');
+        document.getElementById('checkoutModal').classList.add('active');
+    });
+    
+    // Закрытие оформления заказа
+    document.getElementById('closeCheckout').addEventListener('click', () => {
+        document.getElementById('checkoutModal').classList.remove('active');
+    });
+    
+    // Успешный заказ
+    document.getElementById('closeSuccess').addEventListener('click', () => {
+        document.getElementById('successModal').classList.remove('active');
+    });
+    
+    // Форма оформления
+    document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const order = {
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            email: formData.get('email'),
+            address: formData.get('address'),
+            comment: formData.get('comment'),
+            items: cart,
+            total: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+        };
+        
+        console.log('Новый заказ:', order);
+        
+        // Показать успех
+        document.getElementById('checkoutModal').classList.remove('active');
+        document.getElementById('successModal').classList.add('active');
+        
+        // Очистить корзину
+        cart = [];
+        updateCartDisplay();
+        e.target.reset();
+    });
+    
+    // Категории
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.category);
+        });
+    });
+    
+    // Закрытие модальных окон по клику вне
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    });
+    
+    // Закрытие по ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+    });
+}
+
+// Добавляем стили для анимаций
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);

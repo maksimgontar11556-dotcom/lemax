@@ -1,0 +1,99 @@
+/* products.js */
+const products = [
+    {
+        id: 1,
+        name: "Крем для лица с гиалуроновой кислотой",
+        category: "face",
+        price: 1890,
+        description: "Интенсивное увлажнение на 24 часа",
+        icon: "💧"
+    },
+    {
+        id: 2,
+        name: "Маска для лица с коллагеном",
+        category: "face",
+        price: 1490,
+        description: "Подтягивает и разглаживает морщины",
+        icon: "✨"
+    },
+    {
+        id: 3,
+        name: "Тоник для лица с витамином C",
+        category: "face",
+        price: 1290,
+        description: "Осветляет и выравнивает тон",
+        icon: "🍊"
+    },
+    {
+        id: 4,
+        name: "Сыворотка с ретинолом",
+        category: "face",
+        price: 2490,
+        description: "Антивозрастной уход",
+        icon: "🌟"
+    },
+    {
+        id: 5,
+        name: "Крем для тела с маслом ши",
+        category: "body",
+        price: 1590,
+        description: "Глубокое питание и увлажнение",
+        icon: "🧴"
+    },
+    {
+        id: 6,
+        name: "Скраб для тела кофейный",
+        category: "body",
+        price: 990,
+        description: "Нежное отшелушивание",
+        icon: "☕"
+    },
+    {
+        id: 7,
+        name: "Масло для тела расслабляющее",
+        category: "body",
+        price: 1790,
+        description: "С лавандой и мятой",
+        icon: "🌸"
+    },
+    {
+        id: 8,
+        name: "Крем для рук с мочевиной",
+        category: "body",
+        price: 890,
+        description: "Интенсивный уход за кожей рук",
+        icon: "🙌"
+    },
+    {
+        id: 9,
+        name: "Шампунь увлажняющий",
+        category: "hair",
+        price: 1190,
+        description: "Для сухих и повреждённых волос",
+        icon: "🧴"
+    },
+    {
+        id: 10,
+        name: "Маска для волос восстанавливающая",
+        category: "hair",
+        price: 1390,
+        description: "Реставрация структуры волос",
+        icon: "💆"
+    },
+    {
+        id: 11,
+        name: "Сыворотка для кончиков волос",
+        category: "hair",
+        price: 990,
+        description: "Устраняет секущиеся концы",
+        icon: "💧"
+    },
+    {
+        id: 12,
+        name: "Масло для волос аргановое",
+        category: "hair",
+        price: 1690,
+        description: "Блеск и питание",
+        icon: "🌿"
+    }
+];
